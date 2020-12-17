@@ -4,6 +4,20 @@ const HeaderStyle = createGlobalStyle`
 .header-wrap{
     background: #FFFFFF;
     box-shadow: 0px 1px 4px rgba(37, 61, 89, 0.16);
+    .notification-icon{
+        padding: 10px;
+        width: 40px;
+        transition: all 0.25s linear 0s;
+        :hover{
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            transition: all 0.25s linear 0s;
+        }
+    }
+    .open{
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 8px; 
+    }
     .notification-head{
         padding: 16px 32px;
         font-weight: 700;
@@ -15,7 +29,7 @@ const HeaderStyle = createGlobalStyle`
         border: 2px solid #FFFFFF;
         border-radius: 50%;
         top: 20px;
-        right: 31px;
+        right: 33px;
     }
     .notification-drawer{
         background: #FFFFFF;

@@ -22,8 +22,8 @@ const Header = (props) => {
                     <Col className="pl-0">
                         <p className="m-0 theme-text notification-head">{props.text}</p>
                     </Col>
-                    <Col className="d-flex align-items-center justify-content-end position-relative cursor-pointer" onClick={() => setOpen(!Open)}>
-                        <img src={NotificationIcon} className="p-2 mr-2" alt="notification icon"/>
+                    <Col className="d-flex align-items-center justify-content-end position-relative" onClick={() => setOpen(!Open)}>
+                        <img src={NotificationIcon} className={Open ? "mr-2 cursor-pointer notification-icon open" : "mr-2 cursor-pointer notification-icon"} alt="notification icon"/>
                         <div className="notify-icon position-absolute"/>
                     </Col>
                 </Row>
