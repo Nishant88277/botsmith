@@ -1,13 +1,18 @@
 import React from "react";
-import "./app.css"
+import {BrowserRouter as Router} from "react-router-dom";
 
 // Components
 import Dashboard from "./Components/Dashboard";
 
+// style
+import "./app.css"
+
 function App() {
   return (
     <div>
-      <Dashboard/>
+        <Router>
+            <Dashboard/>
+        </Router>
     </div>
   );
 }

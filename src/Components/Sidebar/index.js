@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Link} from "react-router-dom";
 
 // --style--
 import SidebarStyle from "./style";
@@ -21,9 +22,11 @@ const Sidebar = () => {
         <>
             <div className="sidebar-wrap">
                 <div className={Expand ? "slider-collapse" : "slider-expand"}>
-                    <p className="logo text-white m-0">
-                        Logo
-                    </p>
+                    <Link to="/" className="d-block">
+                        <p className="logo text-white m-0">
+                            Logo
+                        </p>
+                    </Link>
                     <div className="icon-wrap">
                         <div className="d-flex align-items-center icon mb-4">
                             <img src={DesignerIcon} alt="designer icon"/>

@@ -2,8 +2,8 @@ import { createGlobalStyle } from "styled-components";
 
 const HeaderStyle = createGlobalStyle`
 .header-wrap{
-    background: #FFFFFF;
     box-shadow: 0px 1px 4px rgba(37, 61, 89, 0.16);
+    z-index: 99;
     .notification-icon{
         padding: 10px;
         width: 40px;
@@ -21,6 +21,7 @@ const HeaderStyle = createGlobalStyle`
     .notification-head{
         padding: 16px 32px;
         font-weight: 700;
+        margin-left: 72px;
     }
     .notify-icon{
         width: 9px;

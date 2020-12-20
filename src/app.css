@@ -8,6 +8,7 @@ html{
 body {
     font-family: 'Open Sans', serif !important;
     font-size: 14px!important;
+    background: #F7F7F7!important;
 }
 
 .f-16{
@@ -20,4 +21,8 @@ body {
 
 .cursor-pointer{
     cursor: pointer;
+}
+
+a:hover {
+    text-decoration: none;
 }
