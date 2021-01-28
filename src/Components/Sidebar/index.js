@@ -30,30 +30,30 @@ const Sidebar = () => {
                     <div className="icon-wrap">
                         <div className="d-flex align-items-center icon mb-4">
                             <img src={DesignerIcon} alt="designer icon"/>
-                            {Expand ? '' : <p className="m-0 text-white ml-2">Designer</p>}
+                            {Expand ? '' : <p className="m-0 text-white ml-2 text-nowrap">Designer</p>}
                         </div>
                         <div className="d-flex align-items-center icon mb-4">
                             <img src={BotIcon} alt="bot icon"/>
-                            {Expand ? '' : <p className="m-0 text-white ml-2">Bot Manager</p>}
+                            {Expand ? '' : <p className="m-0 text-white ml-2 text-nowrap">Bot Manager</p>}
                         </div>
                         <div className="d-flex align-items-center icon mb-4">
                             <img src={PortalsIcon} alt="portals icon"/>
-                            {Expand ? '' : <p className="m-0 text-white ml-2">Portals</p>}
+                            {Expand ? '' : <p className="m-0 text-white ml-2 text-nowrap">Portals</p>}
                         </div>
                         <div className="d-flex align-items-center icon mb-4">
                             <img src={UserIcon} alt="user icon"/>
-                            {Expand ? '' : <p className="m-0 text-white ml-2">User Management</p>}
+                            {Expand ? '' : <p className="m-0 text-white ml-2 text-nowrap">User Management</p>}
                         </div>
                     </div>
                     <div className="sidebar-footer">
                         <div className="icon-wrap">
                             <div className="d-flex align-items-center icon mb-4">
                                 <img src={ProfileIcon} alt="profile icon"/>
-                                {Expand ? '' : <p className="m-0 text-white ml-2">Profile</p>}
+                                {Expand ? '' : <p className="m-0 text-white ml-2 text-nowrap">Profile</p>}
                             </div>
                             <div className="d-flex align-items-center icon mb-4">
                                 <img src={LogoutIcon} alt="logout icon"/>
-                                {Expand ? '' : <p className="m-0 text-white ml-2">Log Out</p>}
+                                {Expand ? '' : <p className="m-0 text-white ml-2 text-nowrap">Log Out</p>}
                             </div>
                         </div>
                     </div>

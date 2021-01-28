@@ -7,6 +7,7 @@ const SidebarStyle = createGlobalStyle`
     background: #203359;
     position: fixed;
     z-index: 999;
+    top: 0;
     .slider-collapse{
         width: 72px;
         transition: all 0.25s linear 0s;

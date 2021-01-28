@@ -4,6 +4,7 @@ const HeaderStyle = createGlobalStyle`
 .header-wrap{
     box-shadow: 0px 1px 4px rgba(37, 61, 89, 0.16);
     z-index: 99;
+    top: 0;
     .notification-icon{
         padding: 10px;
         width: 40px;
@@ -29,8 +30,8 @@ const HeaderStyle = createGlobalStyle`
         background: #EB5757;
         border: 2px solid #FFFFFF;
         border-radius: 50%;
-        top: 20px;
-        right: 33px;
+        top: 14px;
+        right: 18px;
     }
     .notification-drawer{
         background: #FFFFFF;
@@ -72,6 +73,25 @@ const HeaderStyle = createGlobalStyle`
                 }
             } 
         }
+    }
+    .editBot{
+        border: 1px solid #CCD7E8;
+        box-sizing: border-box;
+        border-radius: 8px;
+        padding: 9px 12px;
+        max-width: 110px;
+        outline: none;
+        color: #203359;
+        font-size: 14px;
+    }
+    .BotRunBtn{
+        background: #007AF5;
+        border-radius: 6px;
+        color: #fff;
+        border: unset;
+        padding: 8px 32px;
+        outline: none;
+        font-weight: 700;
     }
 }
 `;
