@@ -23,6 +23,33 @@ function BotSidebar() {
         setActions(false)
     }
 
+    var MenuOptions = [
+        {
+            name: 'Database',
+            icon: DatabaseIcon
+        },
+        {
+            name: 'Feeds',
+            icon: DatabaseIcon
+        },
+        {
+            name: 'Custom GUI',
+            icon: DatabaseIcon
+        },
+        {
+            name: 'Script',
+            icon: DatabaseIcon
+        },
+        {
+            name: 'Communicate',
+            icon: DatabaseIcon
+        },
+        {
+            name: 'Decision',
+            icon: DatabaseIcon
+        }
+    ];
+
     return (
         <div className="BotSidebar position-fixed">
             { Type === '' &&
@@ -40,58 +67,16 @@ function BotSidebar() {
                     <div className="pl-3 pr-3">
                         <h6 className="mb-0">Categories</h6>
                         <ul className="pl-0 mb-0 mt-4">
-                            <li className="d-flex justify-content-between cursor-pointer"
-                                onClick={() => handleList('Database')}>
-                                <div className="d-flex">
-                                    <img src={DatabaseIcon} alt="DatabaseIcon"/>
-                                    <span className="theme-text ml-2">Database</span>
-                                </div>
-                                <img src={DropdownIcon} alt="DropdownIcon"/>
-                            </li>
-                            <li className="d-flex justify-content-between cursor-pointer mt-4"
-                                onClick={() => handleList('Feeds')}>
-                                <div className="d-flex">
-                                    <img src={DatabaseIcon} alt="DatabaseIcon"/>
-                                    <span className="theme-text ml-2">Feeds</span>
-                                </div>
-                                <img src={DropdownIcon} alt="DropdownIcon"/>
-                            </li>
-                            <li className="d-flex justify-content-between cursor-pointer mt-4"
-                                onClick={() => handleList('GUI')}>
-                                <div className="d-flex">
-                                    <img src={DatabaseIcon} alt="DatabaseIcon"/>
-                                    <span className="theme-text ml-2">Custom GUI</span>
-                                </div>
-                                <img src={DropdownIcon} alt="DropdownIcon"/>
-                            </li>
-                            <li className="d-flex justify-content-between cursor-pointer mt-4"
-                                onClick={() => handleList('Script')}>
-                                <div className="d-flex">
-                                    <img src={DatabaseIcon} alt="DatabaseIcon"/>
-                                    <span className="theme-text ml-2">Script</span>
-                                </div>
-                                <img src={DropdownIcon} alt="DropdownIcon"/>
-                            </li>
-                            <li
-                                className="d-flex justify-content-between cursor-pointer mt-4"
-                                onClick={() => handleList('Communicate')}
-                            >
-                                <div className="d-flex">
-                                    <img src={DatabaseIcon} alt="DatabaseIcon"/>
-                                    <span className="theme-text ml-2">Communicate</span>
-                                </div>
-                                <img src={DropdownIcon} alt="DropdownIcon"/>
-                            </li>
-                            <li
-                                className="d-flex justify-content-between cursor-pointer mt-4"
-                                onClick={() => handleList('Decision')}
-                            >
-                                <div className="d-flex">
-                                    <img src={DatabaseIcon} alt="DatabaseIcon"/>
-                                    <span className="theme-text ml-2">Decision</span>
-                                </div>
-                                <img src={DropdownIcon} alt="DropdownIcon"/>
-                            </li>
+                            {MenuOptions.map((Option, i) => {
+                                return <li key={i} className="d-flex justify-content-between cursor-pointer mt-4"
+                                    onClick={() => handleList(Option.name)}>
+                                    <div className="d-flex">
+                                        <img src={Option.icon} alt="DatabaseIcon"/>
+                                        <span className="theme-text ml-2">{Option.name}</span>
+                                    </div>
+                                    <img src={DropdownIcon} alt="DropdownIcon"/>
+                                </li>
+                            })}
                         </ul>
                     </div>
                 </div>
@@ -201,7 +186,7 @@ function BotSidebar() {
                     </div>
                 </div>
             }
-            { Type === 'GUI' &&
+            { Type === 'Custom GUI' &&
                 <div>
                     <div className="pl-3 pr-3">
                         <h6

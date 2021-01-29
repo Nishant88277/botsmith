@@ -95,7 +95,7 @@ const Bot = () => {
             </div>
             <Row className="ml-4 mr-4 mt-4 mb-4">
                 <Col lg={3}>
-                    <Link to="/editbot" className="d-block">
+                    <Link to="/bot-designer" className="d-block">
                         <ModuleCard icon={BotListingIcon} heading="Bot Name" sub="Short description about Bot Lorem ipsum dolor sit amet, consectetur adipiscing elit."/>
                     </Link>
                 </Col>

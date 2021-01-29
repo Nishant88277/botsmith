@@ -8,7 +8,7 @@ import Header from "../Header";
 import Designer from "../Designer"
 import Template from "../Template-listing";
 import Bot from "../Bot-listing";
-import BotEdit from "../../Container/EditBot";
+import BotDesigner from "../../Container/BotDesigner";
 
 // --style--
 import DashboardStyle from "./style";
@@ -20,7 +20,7 @@ const Dashboard = () => {
             case "/":   return "Designer";
             case "/template":   return "Template";
             case "/bot": return "Bot";
-            case "/editbot": return "Bot Name";
+            case "/bot-designer": return "Bot Name";
             default: return ""
         }
     }
@@ -28,14 +28,14 @@ const Dashboard = () => {
         <>
             <Header text={ project() }/>
             <div className="d-flex mt-4">
-                {location.pathname !== '/editbot' && <Sidebar/>}
-                {location.pathname === '/editbot' && <BotSidebar/>}
+                {location.pathname !== '/bot-designer' && <Sidebar/>}
+                {location.pathname === '/bot-designer' && <BotSidebar/>}
                 <section className="mt-5 section-wrap w-100">
                     <Switch>
                         <Route exact path="/" component={Designer}/>
                         <Route exact path="/template" component={Template}/>
                         <Route exact path="/bot" component={Bot}/>
-                        <Route exact path="/editbot" component={BotEdit}/>
+                        <Route exact path="/bot-designer" component={BotDesigner}/>
                     </Switch>
                 </section>
             </div>

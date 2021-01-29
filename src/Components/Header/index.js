@@ -28,7 +28,7 @@ const Header = (props) => {
                 return "/";
             case "/bot":
                 return "/";
-            case "/editbot":
+            case "/bot-designer":
                 return "/bot";
             default:
                 return ""
@@ -45,14 +45,14 @@ const Header = (props) => {
                 <Row className="m-0">
                     <Col className="pl-0">
                         <div
-                            className={location.pathname === '/editbot' ? head === false ? "notification-head d-flex ml-0 align-items-center pt-2 pb-2" : "notification-head d-flex ml-0 align-items-center" : "notification-head d-flex"}>
+                            className={location.pathname === '/bot-designer' ? head === false ? "notification-head d-flex ml-0 align-items-center pt-2 pb-2" : "notification-head d-flex ml-0 align-items-center" : "notification-head d-flex"}>
                             <Link to={Links()} className="d-block">
                                 {location.pathname !== '/' && <img src={BackArrow} onClick={() => setHeadText(true)} className="pr-3" alt="Back arrow"/>}
                             </Link>
                             {head === true && <p className="mb-0 theme-text">{EditHead}</p>}
                             {head === false && <input type='text' value={EditHead} onChange={handleChange} className='editBot ml-3 font-weight-bold'/>}
                             {
-                                location.pathname === '/editbot' &&
+                                location.pathname === '/bot-designer' &&
                                     <span>
                                         {
                                             head === true ?
@@ -75,7 +75,7 @@ const Header = (props) => {
                     </Col>
                     <Col className="d-flex align-items-center justify-content-end">
                         {
-                            location.pathname === '/editbot' &&
+                            location.pathname === '/bot-designer' &&
                             <img
                                 src={FullScreenIcon}
                                 alt="FullScreenIcon"
@@ -90,7 +90,7 @@ const Header = (props) => {
                                  onClick={() => setNotificationOpen(!NotificationOpen)}/>
                         </div>
                         {
-                            location.pathname === '/editbot' &&
+                            location.pathname === '/bot-designer' &&
                             <button className="BotRunBtn ml-2 mr-3">
                                 Run
                             </button>

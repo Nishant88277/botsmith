@@ -8,6 +8,7 @@ const BotSidebarStyle = createGlobalStyle`
         width: 220px;
         height: 100%;
         padding-top: 75px;
+        z-index: 9;
         h6{
             color: #6A768E;
             font-weight: 600;
