@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const BotEditStyle = createGlobalStyle`
     .EditBotSection{
-        margin-left: 170px;
+        margin-left: 150px;
         height: 90vh;
     }
     .react-flow__node-default {
