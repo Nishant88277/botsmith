@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 // --image--
 import SearchIcon from "../../Assets/images/search-icon.svg"
@@ -12,6 +12,7 @@ import BotSidebarStyle from "./style";
 
 function BotSidebar() {
     const [Type, setType] = useState('');
+    const [Search, setSearch] = useState('');
     const [Actions, setActions] = useState(false);
 
     const handleList = (Type) => {
@@ -22,6 +23,27 @@ function BotSidebar() {
         setType('')
         setActions(false)
     }
+
+    const handleSearch = (e) => {
+        setSearch(e.target.value)
+    }
+
+    useEffect(() => {
+        let filter, ul, li, a, i, txtValue;
+        filter = Search && Search.toUpperCase();
+        ul = document.getElementById("CategoriesUL");
+        li = ul.getElementsByTagName('li');
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    });
 
     var MenuOptions = [
         {
@@ -61,21 +83,24 @@ function BotSidebar() {
                             className="SearchBar w-100 mt-3 theme-text"
                             placeholder="Search"
                             style={{backgroundImage: `url(${SearchIcon})`}}
+                            value={Search}
+                            onChange={handleSearch}
                         />
                     </div>
                     <hr style={{background: '#CCD7E8'}}/>
                     <div className="pl-3 pr-3">
                         <h6 className="mb-0">Categories</h6>
-                        <ul className="pl-0 mb-0 mt-4">
+                        <ul id="CategoriesUL" className="pl-0 mb-0 mt-4 list-unstyled">
                             {MenuOptions.map((Option, i) => {
-                                return <li key={i} className="d-flex justify-content-between cursor-pointer mt-4"
-                                    onClick={() => handleList(Option.name)}>
-                                    <div className="d-flex">
-                                        <img src={Option.icon} alt="DatabaseIcon"/>
-                                        <span className="theme-text ml-2">{Option.name}</span>
-                                    </div>
-                                    <img src={DropdownIcon} alt="DropdownIcon"/>
-                                </li>
+                                return <li key={i} onClick={() => handleList(Option.name)}>
+                                            <a className="d-flex justify-content-between cursor-pointer mt-4">
+                                                <div className="d-flex">
+                                                    <img src={Option.icon} alt="DatabaseIcon"/>
+                                                    <span className="theme-text ml-2">{Option.name}</span>
+                                                </div>
+                                                <img src={DropdownIcon} alt="DropdownIcon"/>
+                                            </a>
+                                        </li>
                             })}
                         </ul>
                     </div>

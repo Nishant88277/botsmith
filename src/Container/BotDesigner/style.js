@@ -13,7 +13,8 @@ const BotEditStyle = createGlobalStyle`
         background: #CCD7E8;
     }
     .react-flow__node-default.selected, .react-flow__node-default.selected:hover{
-        box-shadow: 0 1px 4px 1px rgb(0 0 0 / 8%);
+        box-shadow: unset;
+        border: 2px solid #007af5
     }
     .react-flow__edge {
         pointer-events: none;
