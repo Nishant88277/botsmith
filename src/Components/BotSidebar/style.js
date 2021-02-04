@@ -25,6 +25,7 @@ const BotSidebarStyle = createGlobalStyle`
             background-repeat: no-repeat;
             background-position: 10px;
             background-size: 16px;
+            width: 86%;
         }
     }
     .ActionStyle{
