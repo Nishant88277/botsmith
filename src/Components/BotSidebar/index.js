@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
 // --image--
 import SearchIcon from "../../Assets/images/search-icon.svg";
@@ -10,13 +10,22 @@ import CloseIcon from "../../Assets/images/close-icon.svg";
 // --style--
 import BotSidebarStyle from "./style";
 
+const DATABASE = "database";
+const FEEDS = "feeds";
+const CUSTOMGUI = "customgui";
+const SCRIPT = "script";
+const COMMUNICATE = "communicate";
+const DESCISION = "decision";
+
 let categoryArr = [
     {
+        type: DATABASE,
         name: "Database",
         icon: DatabaseIcon,
         subCategories: [
             {
-                name: "MySQL",
+                name: "My-Sql",
+                showActions: false,
                 actions: [
                     {
                         name: "select",
@@ -29,11 +38,13 @@ let categoryArr = [
         ],
     },
     {
+        type: FEEDS,
         name: "Feeds",
         icon: DatabaseIcon,
         subCategories: [
             {
                 name: "RSS",
+                showActions: false,
                 actions: [
                     {
                         name: "Watch",
@@ -43,70 +54,81 @@ let categoryArr = [
         ],
     },
     {
+        type: CUSTOMGUI,
         name: "Custom GUI",
         icon: DatabaseIcon,
         subCategories: [
             {
                 name: "News Action Intel",
-                actions: []
-            }
+                showActions: false,
+                actions: [],
+            },
         ],
     },
     {
+        type: SCRIPT,
         name: "Script",
         icon: DatabaseIcon,
         subCategories: [
             {
                 name: "Python",
+                showActions: false,
                 actions: [
                     {
                         name: "Execute",
                     }
                 ],
-            }
+            },
         ],
     },
     {
+        type: COMMUNICATE,
         name: "Communicate",
         icon: DatabaseIcon,
         subCategories: [
             {
                 name: "Email",
+                showActions: false,
                 actions: [
                     {
                         name: "Send",
                     }
                 ],
-            }
+            },
         ],
     },
     {
+        type: DESCISION,
         name: "Decision",
         icon: DatabaseIcon,
         subCategories: [
             {
                 name: "Match",
+                showActions: false,
                 actions: [
                     {
                         name: "Text",
                     }
                 ],
-            }
+            },
         ],
     },
 ]
 
-function BotSidebar() {
-    const [Type, setType] = useState('');
+function BotSidebar(props) {
+    const [Type, setType] = useState("");
     const [Search, setSearch] = useState("");
     const [Actions, setActions] = useState(false);
     const [Categories, setCategories] = useState(categoryArr);
 
 
+    const handleList = (Type) => {
+        setType(Type);
+    };
+
     const handleBack = () => {
         if (Type !== "") {
             setType("");
-            setSearch("");
             setActions(false);
             setCategories(categoryArr)
         }
@@ -116,58 +138,102 @@ function BotSidebar() {
         setSearch(e.target.value);
     };
 
+    // Call after setSearch
+    useEffect(() => {
+        if (Search !== "") {
+            setCategories(
+                Categories.filter((category) => {
+                    return (category.subCategories.some((subcategory) => {
+                        return subcategory.name
+                            .toLocaleLowerCase()
+                            .trim()
+                            .includes(Search.toLocaleLowerCase().trim());
+                    })) || (category.name.toLocaleLowerCase().trim().includes(Search.toLocaleLowerCase().trim()));
+                })
+            );
+        } else {
+            setCategories(categoryArr);
+        }
+    }, [Search]);
+
     return (
         <div className="BotSidebar position-fixed">
-            {(Type === "") && <div>
-                <h6 className="mb-0 pl-3 pr-3">All Components</h6>
+            {(Type === "") && <div className="pl-3 pr-3">
+                <h6 className="mb-3">All Components</h6>
                 <input
                     type="text"
-                    className="SearchBar mt-3 theme-text ml-3 mr-3"
+                    className="SearchBar w-100 theme-text"
                     placeholder="Search"
                     style={{backgroundImage: `url(${SearchIcon})`}}
-                    value={Search}
                     onChange={handleSearch}
                 />
-                <hr/>
+                <hr className="mb-0"/>
+                {(Search === '') && <h6 className="mb-3 mt-3">Categories</h6>}
             </div>}
             {Categories.map(function (category, index) {
                 return (
                     <div key={index}>
                         <div className="pl-3 pr-3">
-                            <div className="mb-0 d-flex cursor-pointer" onClick={handleBack}>
-                                {(Type !== "") && <img src={BackGreyIcon} alt="BackGreyIcon"/>}
+                            <div className="mb-0" onClick={handleBack}>
                                 <div
+                                    className="d-flex cursor-pointer"
                                     onClick={() => {
-                                        setType(category.name);
-                                        setSearch("");
+                                        setType(category.type);
                                         setCategories(categoryArr.filter((Category) => {
-                                                return (category.name === Category.name)
+                                                return (category.type === Category.type)
                                             }
                                         ))
                                     }}
-                                    className={Type === "" ? "d-flex w-100 mb-4" : "d-flex w-100"}
                                 >
-                                    {(Type === "") && <img src={DatabaseIcon} alt="DatabaseIcon"/>}
-                                    <span className="ml-3">
+                                    {(Type !== "") && <img src={BackGreyIcon} alt="BackGreyIcon"/>}
+                                    {(Type === "") && (Search === '') && <img src={DatabaseIcon} alt="DatabaseIcon"/>}
+                                    {(Search === '') ? <span
+                                        className="ml-3"
+                                    >
                                       {category.name}
-                                    </span>
-                                    {(Type === "") && <img className="ml-auto" src={DropdownIcon} alt="DropdownIcon"/>}
+                                    </span> : <h6 className='mt-3'>{category.name}</h6>}
+                                    {(Type === "") && (Search === '') &&
+                                    <img className="ml-auto" src={DropdownIcon} alt="DropdownIcon"/>}
+                                    {/* add variables instead of hard coded values */}
                                 </div>
                             </div>
-                            {(Type !== "") && <input
+                            {(Type !== "") &&
+                            <input
                                 type="text"
-                                className="SearchBar mt-3 w-100 theme-text"
+                                className="SearchBar w-100 mt-3 theme-text"
                                 placeholder="Search"
                                 style={{backgroundImage: `url(${SearchIcon})`}}
-                                value={Search}
-                                onChange={handleSearch}
-                            />}
+                            />
+                            }
+                            <ul
+                                className={
+                                    (Search === '') ? "pl-0 mb-0 mt-4 position-relative" : "pl-0 mb-0"
+                                }
+                            >
                                 {category.subCategories.map(function (subcategory, index) {
-                                    return (category.name === Type) && (
-                                        <ul key={index} className="pl-0 mb-0 mt-4 position-relative">
+                                    return ((category.type === Type) || (Search !== "")) && (
+                                        <div key={index}>
                                             <li
                                                 className="d-flex justify-content-between cursor-pointer"
-                                                onClick={() => setActions(true)}
+                                                onClick={() => {
+                                                    setActions(true)
+                                                    //set the show actions property = true for the clicked subcategory and false for others
+                                                    Categories.forEach((Category) => {
+                                                        if (category.type === Category.type) {
+                                                            //  in the selected category , make the selected subcategory showAction true
+                                                            Category.subCategories.forEach((Subcategory) => {
+                                                                Subcategory.showActions = (subcategory.name === Subcategory.name)
+                                                            })
+                                                        } else {
+                                                            //in the other categories , set all the subcategory showActions to false
+                                                            Category.subCategories.forEach((Subcategory) => {
+                                                                Subcategory.showActions = false
+                                                            })
+                                                        }
+
+                                                    })
+
+                                                }}
                                             >
                                                 <div className="d-flex">
                                                     <img src={DatabaseIcon} alt="DatabaseIcon"/>
@@ -175,11 +241,11 @@ function BotSidebar() {
                                                       {subcategory.name}
                                                     </span>
                                                 </div>
-                                                {subcategory.actions.length > 0 &&
-                                                    <img src={DropdownIcon} alt="DropdownIcon"/>
-                                                }
+                                                <img src={DropdownIcon} alt="DropdownIcon"/>
                                             </li>
-                                            { Actions && category.name !== "Custom GUI" && (
+
+
+                                            {Actions && subcategory.showActions && (
                                                 <div className="p-3 pt-4 ActionStyle position-relative">
                                                     <img
                                                         src={CloseIcon}
@@ -194,18 +260,32 @@ function BotSidebar() {
                                                         type="text"
                                                         className="SearchBar w-100 mb-3 theme-text pt-2 pb-2"
                                                         placeholder="Search"
-                                                        style={{ backgroundImage: `url(${SearchIcon})` }}
+                                                        style={{backgroundImage: `url(${SearchIcon})`}}
                                                     />
                                                     <ul className="pl-0 list-unstyled">
                                                         {subcategory.actions.map((action, index) => {
-                                                            return <li key={index}>{action.name}</li>;
+                                                            return <li key={index} onClick={() => {
+                                                                console.log("Action clicked")
+                                                                //pass the selected category , subcategory and action data in props
+                                                                let passData = {
+                                                                    category: category.name,
+                                                                    component: subcategory.name,
+                                                                    action: action.name,
+                                                                    description: "Add decription to the array first"
+                                                                }
+                                                                //  console.log(passData)
+                                                                props.sendAddedComponentData(passData);
+                                                            }
+                                                            }>{action.name}</li>;
                                                         })}
                                                     </ul>
                                                 </div>
                                             )}
-                                        </ul>
+
+                                        </div>
                                     )
                                 })}
+                            </ul>
                         </div>
                     </div>
                 );
