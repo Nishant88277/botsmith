@@ -122,10 +122,6 @@ function BotSidebar(props) {
     const [Categories, setCategories] = useState(categoryArr);
 
 
-    const handleList = (Type) => {
-        setType(Type);
-    };
-
     const handleBack = () => {
         if (Type !== "") {
             setType("");
@@ -156,6 +152,10 @@ function BotSidebar(props) {
         }
     }, [Search]);
 
+    const PassData = (Data) => {
+        props.Node(Data)
+    }
+
     return (
         <div className="BotSidebar position-fixed">
             {(Type === "") && <div className="pl-3 pr-3">
@@ -178,13 +178,14 @@ function BotSidebar(props) {
                                 <div
                                     className="d-flex cursor-pointer"
                                     onClick={() => {
-                                        setType(category.type);
-                                        setCategories(categoryArr.filter((Category) => {
+                                        Search === '' && setType(category.type);
+                                        Search === '' && setCategories(categoryArr.filter((Category) => {
                                                 return (category.type === Category.type)
                                             }
                                         ))
                                     }}
                                 >
+                                    {/*{console.log(Type, Categories)}*/}
                                     {(Type !== "") && <img src={BackGreyIcon} alt="BackGreyIcon"/>}
                                     {(Type === "") && (Search === '') && <img src={DatabaseIcon} alt="DatabaseIcon"/>}
                                     {(Search === '') ? <span
@@ -212,7 +213,7 @@ function BotSidebar(props) {
                             >
                                 {category.subCategories.map(function (subcategory, index) {
                                     return ((category.type === Type) || (Search !== "")) && (
-                                        <div key={index}>
+                                        <div className='position-relative' key={index}>
                                             <li
                                                 className="d-flex justify-content-between cursor-pointer"
                                                 onClick={() => {
@@ -246,7 +247,7 @@ function BotSidebar(props) {
 
 
                                             {Actions && subcategory.showActions && (
-                                                <div className="p-3 pt-4 ActionStyle position-relative">
+                                                <div className="p-3 pt-4 ActionStyle">
                                                     <img
                                                         src={CloseIcon}
                                                         className="cursor-pointer"
@@ -264,17 +265,16 @@ function BotSidebar(props) {
                                                     />
                                                     <ul className="pl-0 list-unstyled">
                                                         {subcategory.actions.map((action, index) => {
-                                                            return <li key={index} onClick={() => {
-                                                                console.log("Action clicked")
+                                                            return <li key={index} className='cursor-pointer' onClick={() => {
                                                                 //pass the selected category , subcategory and action data in props
                                                                 let passData = {
+                                                                    id: Math.floor(Math.random() * 40),
                                                                     category: category.name,
                                                                     component: subcategory.name,
                                                                     action: action.name,
                                                                     description: "Add decription to the array first"
                                                                 }
-                                                                //  console.log(passData)
-                                                                props.sendAddedComponentData(passData);
+                                                                PassData(passData);
                                                             }
                                                             }>{action.name}</li>;
                                                         })}

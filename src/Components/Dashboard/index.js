@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Route, Switch, useLocation} from "react-router-dom";
 
 // Components
@@ -15,6 +15,7 @@ import DashboardStyle from "./style";
 
 const Dashboard = () => {
     const location = useLocation();
+    const [NodeData, setNodeData] = useState("");
     const project = () => {
         switch(location.pathname) {
             case "/":   return "Designer";
@@ -24,18 +25,23 @@ const Dashboard = () => {
             default: return ""
         }
     }
+
+    const Data = (Data) => {
+        setNodeData(Data)
+    }
+
     return (
         <>
             <Header text={ project() }/>
             <div className="d-flex mt-4">
                 {location.pathname !== '/bot-designer' && <Sidebar/>}
-                {location.pathname === '/bot-designer' && <BotSidebar/>}
+                {location.pathname === '/bot-designer' && <BotSidebar Node={Data} />}
                 <section className="mt-5 section-wrap w-100">
                     <Switch>
                         <Route exact path="/" component={Designer}/>
                         <Route exact path="/template" component={Template}/>
                         <Route exact path="/bot" component={Bot}/>
-                        <Route exact path="/bot-designer" component={BotDesigner}/>
+                        <Route exact path="/bot-designer" component={() => <BotDesigner Node={NodeData} />}/>
                     </Switch>
                 </section>
             </div>

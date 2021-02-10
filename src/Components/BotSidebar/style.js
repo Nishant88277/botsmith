@@ -35,7 +35,7 @@ const BotSidebarStyle = createGlobalStyle`
         position: absolute;
         left: 200px;
         width: 184px;
-        top: -27px;
+        top: -7px;
         img{
             position: absolute;
             top: 8px;

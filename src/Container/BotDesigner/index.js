@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactFlow, { Controls, updateEdge, Background } from 'react-flow-renderer';
 
 // components
@@ -11,56 +11,79 @@ import CreatedBotIocn from "../../Assets/images/Created-Bot-icon.svg"
 import BotEditStyle from "./style"
 
 const initialElements = [
-    {
-        id: '1',
-        data: {label: (
-                <div className="d-flex text-left">
-                    <img className="mr-3 componentIcon" src={CreatedBotIocn} alt="CreatedBotIocn"/>
-                    <div>
-                        <p className="theme-text mb-0 componentHead">Component A</p>
-                        <p className="componentSub mb-0" style={{color: '#6A768E'}}>Other Text that helps the user to uinderstand this</p>
-                    </div>
-                </div>
-            )},
-        position: { x: 250, y: 0 },
-    },
-    {
-        id: '2',
-        data: { label: (
-                <div className="d-flex text-left">
-                    <img className="mr-3 componentIcon" src={CreatedBotIocn} alt="CreatedBotIocn"/>
-                    <div>
-                        <p className="theme-text mb-0 componentHead">Component B</p>
-                        <p className="componentSub mb-0" style={{color: '#6A768E'}}>Other Text that helps the user to uinderstand this</p>
-                    </div>
-                </div>
-            ) },
-        position: { x: 100, y: 200 },
-    },
-    {
-        id: '3',
-        data: { label: (
-                <div className="d-flex text-left">
-                    <img className="mr-3 componentIcon" src={CreatedBotIocn} alt="CreatedBotIocn"/>
-                    <div>
-                        <p className="theme-text mb-0 componentHead">Component C</p>
-                        <p className="componentSub mb-0" style={{color: '#6A768E'}}>Other Text that helps the user to uinderstand this</p>
-                    </div>
-                </div>
-            ) },
-        position: { x: 400, y: 200 },
-    },
-    { id: 'e1-2', type: 'smoothstep', animated: true, source: '1', target: '2' },
-    { id: 'e1-3', type: 'smoothstep', animated: true, source: '1', target: '3' },
+    // {
+    //     id: '1',
+    //     data: {label: (
+    //             <div className="d-flex text-left">
+    //                 <img className="mr-3 componentIcon" src={CreatedBotIocn} alt="CreatedBotIocn"/>
+    //                 <div>
+    //                     <p className="theme-text mb-0 componentHead">Component A</p>
+    //                     <p className="componentSub mb-0" style={{color: '#6A768E'}}>Other Text that helps the user to uinderstand this</p>
+    //                 </div>
+    //             </div>
+    //         )},
+    //     position: { x: 250, y: 0 },
+    // },
+    // {
+    //     id: '2',
+    //     data: { label: (
+    //             <div className="d-flex text-left">
+    //                 <img className="mr-3 componentIcon" src={CreatedBotIocn} alt="CreatedBotIocn"/>
+    //                 <div>
+    //                     <p className="theme-text mb-0 componentHead">Component B</p>
+    //                     <p className="componentSub mb-0" style={{color: '#6A768E'}}>Other Text that helps the user to uinderstand this</p>
+    //                 </div>
+    //             </div>
+    //         ) },
+    //     position: { x: 100, y: 200 },
+    // },
+    // {
+    //     id: '3',
+    //     data: { label: (
+    //             <div className="d-flex text-left">
+    //                 <img className="mr-3 componentIcon" src={CreatedBotIocn} alt="CreatedBotIocn"/>
+    //                 <div>
+    //                     <p className="theme-text mb-0 componentHead">Component C</p>
+    //                     <p className="componentSub mb-0" style={{color: '#6A768E'}}>Other Text that helps the user to uinderstand this</p>
+    //                 </div>
+    //             </div>
+    //         ) },
+    //     position: { x: 400, y: 200 },
+    // },
+    // { id: 'e1-2', type: 'smoothstep', animated: true, source: '1', target: '2' },
+    // { id: 'e1-3', type: 'smoothstep', animated: true, source: '1', target: '3' },
 ];
 
 const onLoad = (reactFlowInstance) => reactFlowInstance.fitView();
 
-function EditBot() {
+function EditBot(props) {
 
     const [elements, setElements] = useState(initialElements);
     const [hide, setHide] = useState(false);
     const [node, setNode] = useState(false);
+
+    useEffect(() => {
+        var newItems = [];
+        if(props.Node){
+            newItems.push(
+                {
+                    id: props.Node.id,
+                    data: {label: (
+                            <div className="d-flex text-left">
+                                <img className="mr-3 componentIcon pointer-none" src={CreatedBotIocn} alt="CreatedBotIocn"/>
+                                <div>
+                                    <p className="theme-text mb-0 componentHead">{props.Node.category}</p>
+                                    <p className="componentSub mb-0" style={{color: '#6A768E'}}>{props.Node.description}</p>
+                                </div>
+                            </div>
+                        )},
+                    position: { x: Math.floor(Math.random() * 40), y: Math.floor(Math.random() * 40) },
+                },
+                { id: 'e1-2', type: 'smoothstep', animated: true, source: '1', target: '2' },
+            );
+            initialElements.push(...newItems);
+        }
+    }, [props.Node]);
 
     // gets called after end of edge gets dragged to another source or target
     const onEdgeUpdate = (oldEdge, newConnection) =>

@@ -32,6 +32,9 @@ const BotEditStyle = createGlobalStyle`
     .react-flow__node-default{
         width: 180px;
     }
+    .pointer-none{
+        pointer-events: none;
+    }
 `;
 
 export default BotEditStyle;
