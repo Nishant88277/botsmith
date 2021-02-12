@@ -10,7 +10,7 @@ import CreatedBotIocn from "../../Assets/images/Created-Bot-icon.svg"
 // style
 import BotEditStyle from "./style"
 
-const initialElements = [
+let initialElements = [
     // {
     //     id: '1',
     //     data: {label: (
@@ -64,10 +64,11 @@ function EditBot(props) {
 
     useEffect(() => {
         var newItems = [];
+        let nodeId =  initialElements.length + 1;
         if(props.Node){
             newItems.push(
                 {
-                    id: props.Node.id,
+                    id:nodeId,
                     data: {label: (
                             <div className="d-flex text-left">
                                 <img className="mr-3 componentIcon pointer-none" src={CreatedBotIocn} alt="CreatedBotIocn"/>
@@ -79,9 +80,19 @@ function EditBot(props) {
                         )},
                     position: { x: Math.floor(Math.random() * 40), y: Math.floor(Math.random() * 40) },
                 },
-                { id: 'e1-2', type: 'smoothstep', animated: true, source: '1', target: '2' },
+                { id: `e1-${nodeId}`, type: 'smoothstep', animated: true, source: '1', target: `${nodeId}` },
             );
             initialElements.push(...newItems);
+            // setElements((els) => els.concat(...newItems));
+
+            // initialElements = [...initialElements , ...newItems]
+            setElements(initialElements)
+            // setElements((els) => els.concat(...newItems));
+            console.log("elements"  + elements.length)
+            console.log("initialElements" + initialElements.length )
+            console.log("newItems" + newItems.length)
+
+
         }
     }, [props.Node]);
 
@@ -105,10 +116,10 @@ function EditBot(props) {
                 onEdgeUpdate={onEdgeUpdate}
                 onElementClick={onElementClick}
             >
-            <Background
-                variant="dots"
-            />
-            <Controls />
+                <Background
+                    variant="dots"
+                />
+                <Controls />
             </ReactFlow>
             {hide && <BotRightSidebar node={node}/>}
             <BotEditStyle/>
