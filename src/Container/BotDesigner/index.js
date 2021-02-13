@@ -78,7 +78,8 @@ function EditBot(props) {
                                 </div>
                             </div>
                         )},
-                    position: { x: Math.floor(Math.random() * 40), y: Math.floor(Math.random() * 40) },
+                    // position: { x: Math.floor(Math.random() * 40), y: Math.floor(Math.random() * 40) },
+                    position: { x:  Math.floor(Math.random() * (1000))-500 , y:  (elements.length > 0) ? ( Math.floor(Math.random() * (400)) + 100) : 0    }, 
                 },
                 { id: `e1-${nodeId}`, type: 'smoothstep', animated: true, source: '1', target: `${nodeId}` },
             );
