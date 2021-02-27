@@ -61,7 +61,23 @@ let categoryArr = [
             {
                 name: "News Action Intel",
                 showActions: false,
-                actions: [],
+                actions: [
+                    {
+                        name: "Save News"
+                    },
+                    {
+                        name: "Fetch Assets"
+                    },
+                    {
+                        name: "Fetch Watchwords"
+                    },
+                    {
+                        name: "Save Matched News"
+                    },
+                    {
+                        name: "Publish News to Portal"
+                    }
+                ],
             },
         ],
     },
