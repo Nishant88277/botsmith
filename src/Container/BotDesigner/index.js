@@ -24,7 +24,7 @@ let initialElements = {
   edges: [],
 };
 
-const onLoad = (reactFlowInstance) => reactFlowInstance.fitView();
+// const onLoad = (reactFlowInstance) => reactFlowInstance.fitView();
 
 function EditBot(props) {
   // const [elements, setElements] = useState(initialElements);
@@ -65,11 +65,11 @@ function EditBot(props) {
           x:
             initialElements.node.length > 0
               ? initialElements.node[initialElements.node.length - 1].position.x
-              : 0,
+              : 500,
           y:
             initialElements.node.length > 0
               ? initialElements.node[initialElements.node.length - 1].position
-                  .y + 200
+                  .y + 100
               : 0,
         },
       };
@@ -113,7 +113,7 @@ function EditBot(props) {
     <ReactFlowProvider>
       <ReactFlow
         elements={elements}
-        onLoad={onLoad}
+        // onLoad={onLoad}
         snapToGrid
         onEdgeUpdate={onEdgeUpdate}
         onElementClick={onElementClick}

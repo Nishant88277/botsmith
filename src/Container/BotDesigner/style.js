@@ -5,6 +5,7 @@ const BotEditStyle = createGlobalStyle`
     .EditBotSection{
         margin-left: 150px;
         height: 90vh;
+        width: calc(100% - 150px);
     }
     .react-flow__node-default {
         border: 2px solid #CCD7E8;
