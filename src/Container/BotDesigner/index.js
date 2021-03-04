@@ -29,15 +29,25 @@ let initialElements = {
 function EditBot(props) {
   // const [elements, setElements] = useState(initialElements);
 
+
+  const [output, setOutput] = useState(
+    // () => JSON.parse(localStorage.getItem("output")) || ["abc","bcd"]
+    )
+
+  const SetOutPut = (data) => {
+    setOutput(data)
+    // localStorage.setItem("output", JSON.stringify(data));
+  }
+
   const [elements, setElements] = useState([
     ...initialElements.node,
     ...initialElements.edges,
   ]);
   const [hide, setHide] = useState(false);
   const [node, setNode] = useState(false);
+  
 
   useEffect(() => {
-
     let nodeId = initialElements.node.length + 1;
     if (props.Node) {
       let newNode = {
@@ -90,6 +100,10 @@ function EditBot(props) {
       setElements([...initialElements.node, ...initialElements.edges]);
 
     }
+
+    return(()=>{
+      console.log("botdesigner unmounts")
+    })
   }, [props.Node]);
 
   // gets called after end of edge gets dragged to another source or target
@@ -123,7 +137,7 @@ function EditBot(props) {
         <Controls />
       </ReactFlow>
       </ReactFlowProvider>
-      {hide && <BotRightSidebar node={node} />}
+      {hide && <BotRightSidebar node={node} setOutput={SetOutPut} output={output} />}
       <BotEditStyle />
     </div>
   );
