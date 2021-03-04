@@ -137,7 +137,6 @@ function BotSidebar(props) {
     const [Actions, setActions] = useState(false);
     const [Categories, setCategories] = useState(categoryArr);
 
-
     const handleBack = () => {
         if (Type !== "") {
             setType("");

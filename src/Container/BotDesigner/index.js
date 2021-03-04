@@ -100,10 +100,6 @@ function EditBot(props) {
       setElements([...initialElements.node, ...initialElements.edges]);
 
     }
-
-    return(()=>{
-      console.log("botdesigner unmounts")
-    })
   }, [props.Node]);
 
   // gets called after end of edge gets dragged to another source or target
@@ -119,7 +115,6 @@ function EditBot(props) {
         element.data.label.props.children[1].props.children[0].props.children
     );
     setHide(true);
-
   };
 
   return (
