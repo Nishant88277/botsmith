@@ -111,8 +111,19 @@ function Watch(props) {
     fetch("http://192.168.5.32:9006/api/v1/m-aa/rss/sample?url=https://ft.com/?format=rss")
       .then(res => res.json())
       .then(
-          (result) => {
-          localStorage.setItem('output', JSON.stringify(result.entries))
+        (result) => {
+
+          var existing = JSON.parse(localStorage.getItem('output'));
+          existing = existing ? existing : [];
+          existing.push(...result.entries);
+          console.log("result entries", result.entries)
+          localStorage.setItem('output', JSON.stringify(existing));
+
+
+
+          // localStorage.setItem('output', JSON.stringify(result.entries))
+
+
         },
         (error) => {
           console.log(error)
@@ -171,11 +182,15 @@ function Decision(options) {
 }
 
 function SaveNews(props) {
+
+
+  const [showOutputOptions, setOutputOptions] = useState(false)
+  const [event , setEvent] = useState(null)
+
   useEffect(() => {
-    // console.log('SaveNews', JSON.parse(localStorage.getItem('output')))
-      JSON.parse(localStorage.getItem('output')).map((item) => {
-          console.log(item)
-      })
+    console.log('SaveNews', JSON.parse(localStorage.getItem('output')))
+
+
   }, props.output)
 
 
@@ -187,6 +202,10 @@ function SaveNews(props) {
           <input
             className="d-block w-100 sideInput theme-text pl-2"
             type="text"
+            onFocus = {(e)=> {
+              setOutputOptions (true)
+              setEvent(e)
+            }}
           />
         </div>
         <div className="mt-4">
@@ -194,6 +213,10 @@ function SaveNews(props) {
           <input
             className="d-block w-100 sideInput theme-text pl-2"
             type="text"
+            onFocus = {(e)=> {
+              setOutputOptions (true)
+              setEvent(e)
+            }}
           />
         </div>
         <div className="mt-4">
@@ -201,6 +224,10 @@ function SaveNews(props) {
           <input
             className="d-block w-100 sideInput theme-text pl-2"
             type="text"
+            onFocus = {(e)=> {
+              setOutputOptions (true)
+              setEvent(e)
+            }}
           />
         </div>
         <div className="mt-4">
@@ -208,17 +235,21 @@ function SaveNews(props) {
           <input
             className="d-block w-100 sideInput theme-text pl-2"
             type="text"
+            onFocus = {(e)=> {
+              setOutputOptions (true)
+              setEvent(e)
+            }}
           />
         </div>
         <hr className="mt-4 mb-4" />
         <button className="btn sidebarButton text-white w-50 float-right">
-              Validate
+          Validate
         </button>
 
 
       </form>
 
-
+     { showOutputOptions && <OutputOptions event = {event}/>}
     </>
   )
 
@@ -299,5 +330,31 @@ function SaveMatchedNews(options) {
         Validate
     </button>
     </form>
+  )
+}
+
+
+
+// modal to show the "output" for save news fields
+function OutputOptions(props) {
+
+  return (
+    
+      <div className="  modal-dialog-centered OutputStyle" >
+        <ul className="pl-0 list-unstyled">
+          <li className='cursor-pointer'>hello</li> {/* this works for some reason */}
+          <button onClick = {()=>{
+              props.event.target.value = "hello"
+             }}>hello</button>
+          {JSON.parse(localStorage.getItem('output')).forEach(function (item) {
+            Object.entries(item).forEach(([key, value]) => {
+              // console.log(value.displayName , value.value)//This works
+             return( <li className='cursor-pointer'>{value.value}</li>) // this doesnt
+            })
+            return(<li className='cursor-pointer'>hello</li>) // this also doesnt work
+          })}
+        </ul>
+      </div>
+
   )
 }
