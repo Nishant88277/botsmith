@@ -40,16 +40,18 @@ const BotRightStyle = createGlobalStyle`
             border-radius: 8px;
             filter: drop-shadow(0px 4px 8px rgba(37, 61, 89, 0.25));
             position: absolute;
-            left: 200px;
-            width: 184px;
-            top: -7px;
+            left: -100%;
+            width: 100%;
+            top: 0;
             z-index : 999;
+            padding: 20px;
             img{
                 position: absolute;
                 top: 8px;
                 right: 10px;
                 width: 13px;
             }
+        }
     }
 `;
 

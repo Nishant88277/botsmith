@@ -112,18 +112,10 @@ function Watch(props) {
       .then(res => res.json())
       .then(
         (result) => {
-
           var existing = JSON.parse(localStorage.getItem('output'));
           existing = existing ? existing : [];
           existing.push(...result.entries);
-          console.log("result entries", result.entries)
           localStorage.setItem('output', JSON.stringify(existing));
-
-
-
-          // localStorage.setItem('output', JSON.stringify(result.entries))
-
-
         },
         (error) => {
           console.log(error)
@@ -182,21 +174,11 @@ function Decision(options) {
 }
 
 function SaveNews(props) {
-
-
   const [showOutputOptions, setOutputOptions] = useState(false)
   const [event , setEvent] = useState(null)
-
-  useEffect(() => {
-    console.log('SaveNews', JSON.parse(localStorage.getItem('output')))
-
-
-  }, props.output)
-
-
   return (
     <>
-      <form className="pl-3 pr-3">
+      <form className="pl-3 pr-3 position-relative">
         <div className="mt-4">
           <label className="theme-text font-weight-normal">Title</label>
           <input
@@ -246,10 +228,11 @@ function SaveNews(props) {
           Validate
         </button>
 
+        { showOutputOptions && <OutputOptions event = {event}/>}
 
       </form>
 
-     { showOutputOptions && <OutputOptions event = {event}/>}
+
     </>
   )
 
@@ -333,28 +316,21 @@ function SaveMatchedNews(options) {
   )
 }
 
-
+const AddInput = (e, props) => {
+    e.preventDefault();
+    props.event.target.value = "hello"
+}
 
 // modal to show the "output" for save news fields
 function OutputOptions(props) {
-
   return (
-    
-      <div className="  modal-dialog-centered OutputStyle" >
-        <ul className="pl-0 list-unstyled">
-          <li className='cursor-pointer'>hello</li> {/* this works for some reason */}
-          <button onClick = {()=>{
-              props.event.target.value = "hello"
-             }}>hello</button>
-          {JSON.parse(localStorage.getItem('output')).forEach(function (item) {
-            Object.entries(item).forEach(([key, value]) => {
-              // console.log(value.displayName , value.value)//This works
-             return( <li className='cursor-pointer'>{value.value}</li>) // this doesnt
-            })
-            return(<li className='cursor-pointer'>hello</li>) // this also doesnt work
+      <ul className="modal-dialog-centered OutputStyle">
+          <button onClick = {(e) => AddInput(e, props)}>hello</button>
+          {JSON.parse(localStorage.getItem('output')).map((item) => {
+              for (var key in item.title) {
+                  <li>{item.title[key]}</li>
+              }
           })}
-        </ul>
-      </div>
-
+      </ul>
   )
 }
