@@ -168,8 +168,17 @@ function BotSidebar(props) {
     }, [Search]);
 
     const PassData = (Data) => {
-        props.Node(Data)
+        props.Node(Data);
+        setActions(false);
+        setCategories(categoryArr);
+        setType("");
     }
+
+    useEffect(() => {
+        setType("");
+        setActions(false);
+        setCategories(categoryArr)
+    }, [props.LeftSidebar])
 
     return (
         <div className="BotSidebar position-fixed">
@@ -248,7 +257,6 @@ function BotSidebar(props) {
                                                         }
 
                                                     })
-
                                                 }}
                                             >
                                                 <div className="d-flex">
@@ -296,7 +304,6 @@ function BotSidebar(props) {
                                                     </ul>
                                                 </div>
                                             )}
-
                                         </div>
                                     )
                                 })}

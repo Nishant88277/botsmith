@@ -8,6 +8,11 @@ import Dashboard from "./Components/Dashboard";
 import "./app.css"
 
 function App() {
+    if (window.performance) {
+        if (performance.navigation.type == 1) {
+            localStorage.clear();
+        }
+    }
   return (
     <div>
         <Router>

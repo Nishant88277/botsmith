@@ -1,20 +1,264 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 
 // style
 import BotRightStyle from "./style";
 
-function BotRightSidebar(props) {
-  const options = [{ value: "localhost", label: "localhost" }];
+// Image
+import Close from '../../Assets/images/close-icon.svg'
 
-  const SetOutPut = (result) => {
-    props.setOutput(result)
-  }
+function BotRightSidebar(props) {
+    const options = [{ value: "localhost", label: "localhost" }];
+    const [URL, setURL] = useState('')
+    const [error, setError] = useState('')
+    const [showOutputOptions, setOutputOptions] = useState(false)
+    const [event , setEvent] = useState(null)
+
+    function handleValidate(event) {
+        event.preventDefault();
+        fetch(`http://192.168.5.32:9006/api/v1/m-aa/rss/sample?url=${URL}`)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    if(result.entries){
+                        var existing = JSON.parse(localStorage.getItem('output'));
+                        existing = existing ? existing : [];
+                        existing.push(...result.entries);
+                        localStorage.setItem('output', JSON.stringify(existing));
+                        props.closeSidebar();
+                    }else{
+                        setError(result.detail);
+                    }
+                }
+            )
+    }
 
   return (
     <div className="BotRightSidebar position-fixed pt-5">
       <h5 className="theme-text header text-capitalize pt-4 pl-3 pr-3 pb-3">{props.node}</h5>
-      <SwitchComponents nodeName={props.node} output={props.output} setOutPut={SetOutPut} options={options} />
+      {/*<SwitchComponents nodeName={props.node} options={options} />*/}
+        {
+            props.node === "select" &&
+            <form className="pl-3 pr-3">
+                <div className="mt-4">
+                    <label className="theme-text font-weight-normal">Connection</label>
+                    <div className="row m-0">
+                        <div className="col-9 pl-0">
+                            <Select options={options} />
+                        </div>
+                        <div className="col-3 pl-0 pr-0 w-100">
+                            <button className="btn btn-outline-primary w-100">Add</button>
+                        </div>
+                    </div>
+                </div>
+                <div className="mt-4">
+                    <label className="theme-text font-weight-normal">Table</label>
+                    <Select options={options} />
+                </div>
+                <div className="mt-4">
+                    <div className="d-flex justify-content-between">
+                        <label className="theme-text font-weight-normal">ID</label>
+                        <span className="charColor">Varchar(40)</span>
+                    </div>
+                    <input
+                        className="d-block w-100 sideInput theme-text pl-2"
+                        type="text"
+                    />
+                </div>
+                <div className="mt-4">
+                    <label className="theme-text font-weight-normal">
+                        Choose List of Text
+                    </label>
+                    <input
+                        className="d-block w-100 sideInput theme-text pl-2"
+                        type="text"
+                    />
+                </div>
+                <hr className="mt-4 mb-4" />
+                <button className="btn sidebarButton text-white w-50 float-right" >
+                    Validate
+                </button>
+            </form>
+        }
+        {
+            props.node === "Watch" &&
+            <form
+                onSubmit={(e) => handleValidate(e)}
+                className="pl-3 pr-3"
+            >
+                <div className="mt-4">
+                    <label className="theme-text font-weight-normal">URL</label>
+                    <input
+                        className="d-block w-100 sideInput theme-text pl-2"
+                        type="text"
+                        onChange={(e) => { setURL(e.target.value) }}
+                        value={URL}
+                    />
+                    <p className='mb-0 mt-2 text-danger'>{error}</p>
+                </div>
+                <hr className="mt-4 mb-4" />
+                <button className="btn sidebarButton text-white w-50 float-right" onClick={(e) => handleValidate(e)} >
+                    Validate
+                </button>
+            </form>
+        }
+        {
+            props.node === "Decision" &&
+            <form className="pl-3 pr-3">
+                <div className="mt-4">
+                    <label className="theme-text font-weight-normal">
+                        Choose List of Text
+                    </label>
+                    <input
+                        className="d-block w-100 sideInput theme-text pl-2"
+                        type="text"
+                    />
+                </div>
+                <div className='mt-4'>
+                    <label className="theme-text font-weight-normal">
+                        Choose Data
+                    </label>
+                    <input
+                        className="d-block w-100 sideInput theme-text pl-2"
+                        type="text"
+                    />
+                </div>
+                <hr className="mt-4 mb-4" />
+                <button className="btn sidebarButton text-white w-50 float-right" >
+                    Validate
+                </button>
+            </form>
+        }
+        {
+            props.node === "Save News" &&
+            <form className="pl-3 pr-3 position-relative">
+                <div className="mt-4">
+                    <label className="theme-text font-weight-normal">Title</label>
+                    <input
+                        className="d-block w-100 sideInput theme-text pl-2"
+                        type="text"
+                        onFocus = {(e)=> {
+                            setOutputOptions (true)
+                            setEvent(e)
+                        }}
+                    />
+                </div>
+                <div className="mt-4">
+                    <label className="theme-text font-weight-normal">Description</label>
+                    <input
+                        className="d-block w-100 sideInput theme-text pl-2"
+                        type="text"
+                        onFocus = {(e)=> {
+                            setOutputOptions (true)
+                            setEvent(e)
+                        }}
+                    />
+                </div>
+                <div className="mt-4">
+                    <label className="theme-text font-weight-normal">Link</label>
+                    <input
+                        className="d-block w-100 sideInput theme-text pl-2"
+                        type="text"
+                        onFocus = {(e)=> {
+                            setOutputOptions (true)
+                            setEvent(e)
+                        }}
+                    />
+                </div>
+                <div className="mt-4">
+                    <label className="theme-text font-weight-normal">Published DateTime</label>
+                    <input
+                        className="d-block w-100 sideInput theme-text pl-2"
+                        type="text"
+                        onFocus = {(e)=> {
+                            setOutputOptions (true)
+                            setEvent(e)
+                        }}
+                    />
+                </div>
+                <hr className="mt-4 mb-4" />
+                <button className="btn sidebarButton text-white w-50 float-right">
+                    Validate
+                </button>
+
+                { showOutputOptions && <OutputOptions event = {event} close={() => setOutputOptions(false)}/>}
+
+            </form>
+        }
+        {
+            props.node === "Publish News to Portal" &&
+            <form className="pl-3 pr-3">
+                <div className="mt-4">
+                    <label className="theme-text font-weight-normal">Title</label>
+                    <input
+                        className="d-block w-100 sideInput theme-text pl-2"
+                        type="text"
+                    />
+                </div>
+                <div className="mt-4">
+                    <label className="theme-text font-weight-normal">Description</label>
+                    <input
+                        className="d-block w-100 sideInput theme-text pl-2"
+                        type="text"
+                    />
+                </div>
+                <div className="mt-4">
+                    <label className="theme-text font-weight-normal">Link</label>
+                    <input
+                        className="d-block w-100 sideInput theme-text pl-2"
+                        type="text"
+                    />
+                </div>
+                <div className="mt-4">
+                    <label className="theme-text font-weight-normal">Published DateTime</label>
+                    <input
+                        className="d-block w-100 sideInput theme-text pl-2"
+                        type="text"
+                    />
+                </div>
+                <hr className="mt-4 mb-4" />
+                <button className="btn sidebarButton text-white w-50 float-right" >
+                    Validate
+                </button>
+            </form>
+        }
+        {
+            props.node === "Save Matched News" &&
+            <form className="pl-3 pr-3">
+                <div className="mt-4">
+                    <label className="theme-text font-weight-normal">Published DateTime</label>
+                    <input
+                        className="d-block w-100 sideInput theme-text pl-2"
+                        type="text"
+                    />
+                </div>
+                <div className="mt-4">
+                    <label className="theme-text font-weight-normal">List of Matched Watchwords</label>
+                    <input
+                        className="d-block w-100 sideInput theme-text pl-2"
+                        type="text"
+                    />
+                </div>
+                <div className="mt-4">
+                    <label className="theme-text font-weight-normal">List of Matched Assets</label>
+                    <input
+                        className="d-block w-100 sideInput theme-text pl-2"
+                        type="text"
+                    />
+                </div>
+                <div className="mt-4">
+                    <label className="theme-text font-weight-normal">source</label>
+                    <input
+                        className="d-block w-100 sideInput theme-text pl-2"
+                        type="text"
+                    />
+                </div>
+                <hr className="mt-4 mb-4" />
+                <button className="btn sidebarButton text-white w-50 float-right" >
+                    Validate
+                </button>
+            </form>
+        }
       <BotRightStyle />
     </div>
   );
@@ -22,315 +266,52 @@ function BotRightSidebar(props) {
 
 export default BotRightSidebar;
 
-function SwitchComponents({ nodeName, options }) {
-  switch (nodeName) {
-    case "select":
-      return < SelectComponent options={options} />
-
-
-
-    case "Watch":
-      return <Watch options={options} />
-
-
-    case "Decision":
-      return <Decision options={options} />
-
-
-
-    case "Save News":
-      return <SaveNews />
-
-
-
-    case "Publish News to Portal":
-      return <PublishNewsToPortal options={options} />
-
-
-
-    case "Save Matched News":
-      return <SaveMatchedNews options={options} />
-
-
-    default:
-      return (null)
-  }
-}
-
-function SelectComponent(options) {
-  return (
-    <form className="pl-3 pr-3">
-      <div className="mt-4">
-        <label className="theme-text font-weight-normal">Connection</label>
-        <div className="row m-0">
-          <div className="col-9 pl-0">
-            <Select options={options} />
-          </div>
-          <div className="col-3 pl-0 pr-0 w-100">
-            <button className="btn btn-outline-primary w-100">Add</button>
-          </div>
-        </div>
-      </div>
-      <div className="mt-4">
-        <label className="theme-text font-weight-normal">Table</label>
-        <Select options={options} />
-      </div>
-      <div className="mt-4">
-        <div className="d-flex justify-content-between">
-          <label className="theme-text font-weight-normal">ID</label>
-          <span className="charColor">Varchar(40)</span>
-        </div>
-        <input
-          className="d-block w-100 sideInput theme-text pl-2"
-          type="text"
-        />
-      </div>
-      <div className="mt-4">
-        <label className="theme-text font-weight-normal">
-          Choose List of Text
-      </label>
-        <input
-          className="d-block w-100 sideInput theme-text pl-2"
-          type="text"
-        />
-      </div>
-      <hr className="mt-4 mb-4" />
-      <button className="btn sidebarButton text-white w-50 float-right" >
-        Validate
-    </button>
-    </form>
-  )
-}
-
-function Watch(props) {
-
-  const [URL, setURL] = useState('')
-
-  function handleValidate(event) {
-    event.preventDefault()
-    fetch("http://192.168.5.32:9006/api/v1/m-aa/rss/sample?url=https://ft.com/?format=rss")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          var existing = JSON.parse(localStorage.getItem('output'));
-          existing = existing ? existing : [];
-          existing.push(...result.entries);
-          localStorage.setItem('output', JSON.stringify(existing));
-        },
-        (error) => {
-          console.log(error)
-        }
-      )
-  }
-
-  return (
-    <>
-      <form className="pl-3 pr-3">
-        <div className="mt-4">
-          <label className="theme-text font-weight-normal">URL</label>
-          <input
-            className="d-block w-100 sideInput theme-text pl-2"
-            type="text"
-            onChange={(e) => { setURL(e.target.value) }}
-            value={URL}
-          />
-        </div>
-        <hr className="mt-4 mb-4" />
-        <button className="btn sidebarButton text-white w-50 float-right" onClick={(e) => handleValidate(e)} >
-          Validate
-            </button>
-      </form>
-    </>
-  )
-}
-
-function Decision(options) {
-  return (
-    <form className="pl-3 pr-3">
-      <div className="mt-4">
-        <label className="theme-text font-weight-normal">
-          Choose List of Text
-        </label>
-        <input
-          className="d-block w-100 sideInput theme-text pl-2"
-          type="text"
-        />
-      </div>
-      <div className='mt-4'>
-        <label className="theme-text font-weight-normal">
-          Choose Data
-        </label>
-        <input
-          className="d-block w-100 sideInput theme-text pl-2"
-          type="text"
-        />
-      </div>
-      <hr className="mt-4 mb-4" />
-      <button className="btn sidebarButton text-white w-50 float-right" >
-        Validate
-        </button>
-    </form>
-  )
-}
-
-function SaveNews(props) {
-  const [showOutputOptions, setOutputOptions] = useState(false)
-  const [event , setEvent] = useState(null)
-  return (
-    <>
-      <form className="pl-3 pr-3 position-relative">
-        <div className="mt-4">
-          <label className="theme-text font-weight-normal">Title</label>
-          <input
-            className="d-block w-100 sideInput theme-text pl-2"
-            type="text"
-            onFocus = {(e)=> {
-              setOutputOptions (true)
-              setEvent(e)
-            }}
-          />
-        </div>
-        <div className="mt-4">
-          <label className="theme-text font-weight-normal">Description</label>
-          <input
-            className="d-block w-100 sideInput theme-text pl-2"
-            type="text"
-            onFocus = {(e)=> {
-              setOutputOptions (true)
-              setEvent(e)
-            }}
-          />
-        </div>
-        <div className="mt-4">
-          <label className="theme-text font-weight-normal">Link</label>
-          <input
-            className="d-block w-100 sideInput theme-text pl-2"
-            type="text"
-            onFocus = {(e)=> {
-              setOutputOptions (true)
-              setEvent(e)
-            }}
-          />
-        </div>
-        <div className="mt-4">
-          <label className="theme-text font-weight-normal">Published DateTime</label>
-          <input
-            className="d-block w-100 sideInput theme-text pl-2"
-            type="text"
-            onFocus = {(e)=> {
-              setOutputOptions (true)
-              setEvent(e)
-            }}
-          />
-        </div>
-        <hr className="mt-4 mb-4" />
-        <button className="btn sidebarButton text-white w-50 float-right">
-          Validate
-        </button>
-
-        { showOutputOptions && <OutputOptions event = {event}/>}
-
-      </form>
-
-
-    </>
-  )
-
-}
-
-function PublishNewsToPortal(options) {
-  return (
-    <form className="pl-3 pr-3">
-      <div className="mt-4">
-        <label className="theme-text font-weight-normal">Title</label>
-        <input
-          className="d-block w-100 sideInput theme-text pl-2"
-          type="text"
-        />
-      </div>
-      <div className="mt-4">
-        <label className="theme-text font-weight-normal">Description</label>
-        <input
-          className="d-block w-100 sideInput theme-text pl-2"
-          type="text"
-        />
-      </div>
-      <div className="mt-4">
-        <label className="theme-text font-weight-normal">Link</label>
-        <input
-          className="d-block w-100 sideInput theme-text pl-2"
-          type="text"
-        />
-      </div>
-      <div className="mt-4">
-        <label className="theme-text font-weight-normal">Published DateTime</label>
-        <input
-          className="d-block w-100 sideInput theme-text pl-2"
-          type="text"
-        />
-      </div>
-      <hr className="mt-4 mb-4" />
-      <button className="btn sidebarButton text-white w-50 float-right" >
-        Validate
-      </button>
-    </form>
-  )
-}
-
-function SaveMatchedNews(options) {
-  return (
-    <form className="pl-3 pr-3">
-      <div className="mt-4">
-        <label className="theme-text font-weight-normal">Published DateTime</label>
-        <input
-          className="d-block w-100 sideInput theme-text pl-2"
-          type="text"
-        />
-      </div>
-      <div className="mt-4">
-        <label className="theme-text font-weight-normal">List of Matched Watchwords</label>
-        <input
-          className="d-block w-100 sideInput theme-text pl-2"
-          type="text"
-        />
-      </div>
-      <div className="mt-4">
-        <label className="theme-text font-weight-normal">List of Matched Assets</label>
-        <input
-          className="d-block w-100 sideInput theme-text pl-2"
-          type="text"
-        />
-      </div>
-      <div className="mt-4">
-        <label className="theme-text font-weight-normal">source</label>
-        <input
-          className="d-block w-100 sideInput theme-text pl-2"
-          type="text"
-        />
-      </div>
-      <hr className="mt-4 mb-4" />
-      <button className="btn sidebarButton text-white w-50 float-right" >
-        Validate
-    </button>
-    </form>
-  )
-}
-
-const AddInput = (e, props) => {
+const AddInput = (e, key, props) => {
     e.preventDefault();
-    props.event.target.value = "hello"
+    props.event.target.value = key;
+}
+
+const closeModal = (props) => {
+    props.close()
 }
 
 // modal to show the "output" for save news fields
 function OutputOptions(props) {
+
+    const obj = JSON.parse(localStorage.getItem('output'));
+    const response = [];
+    obj.map((item, index) => {
+        for (const key in item) {
+            response.push(
+                {
+                    key: item[key]['displayName'],
+                    value: item[key]['value'],
+                }
+            )
+        }
+    })
+
   return (
-      <ul className="modal-dialog-centered OutputStyle">
-          <button onClick = {(e) => AddInput(e, props)}>hello</button>
-          {JSON.parse(localStorage.getItem('output')).map((item) => {
-              for (var key in item.title) {
-                  <li>{item.title[key]}</li>
-              }
-          })}
-      </ul>
+      <div className="modal-dialog-centered OutputStyle d-block">
+          <div className='modalHead'>
+              Select Data
+              <img className='cursor-pointer m-2' onClick={() => closeModal(props)} src={Close} alt='Close' />
+          </div>
+          <div className='d-flex listStyle'>
+              <ul className='list-unstyled p-0 m-0 w-100'>
+                  {
+                      response.map((item, index) => {
+                          return <>
+                              <li className='d-flex align-items-center mb-2' key={index}>
+                                  {item.key && <button onClick={(e) => AddInput(e, item.key, props)}
+                                                       className='mb-0 modalButton'>{item.key}</button>}
+                                  <p className='mb-0 pl-2 col-8 text-truncate'>{item.value}</p>
+                              </li>
+                          </>
+                      })
+                  }
+              </ul>
+          </div>
+      </div>
   )
 }

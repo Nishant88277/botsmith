@@ -44,7 +44,23 @@ const BotRightStyle = createGlobalStyle`
             width: 100%;
             top: 0;
             z-index : 999;
-            padding: 20px;
+            margin-block: 0;
+            .modalHead{
+                background: #F5F5F7;
+                padding: 15px 10px;
+                color: #333;
+                font-weight: 600;
+            }
+            .listStyle{
+                width: 100%;
+                padding: 20px 10px;
+            }
+            .modalButton{
+                border: 1px solid #ddd;
+                padding: 2px 10px;
+                border-radius: 5px;
+                font-weight: 600;
+            }
             img{
                 position: absolute;
                 top: 8px;

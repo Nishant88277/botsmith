@@ -3,9 +3,6 @@ import ReactFlow, {
   Controls,
   updateEdge,
   Background,
-  getConnectedEdges,
-  useZoomPanHelper,
-  useStore,
   ReactFlowProvider,
 } from "react-flow-renderer";
 
@@ -24,20 +21,7 @@ let initialElements = {
   edges: [],
 };
 
-// const onLoad = (reactFlowInstance) => reactFlowInstance.fitView();
-
 function EditBot(props) {
-  // const [elements, setElements] = useState(initialElements);
-
-
-  const [output, setOutput] = useState(
-    // () => JSON.parse(localStorage.getItem("output")) || ["abc","bcd"]
-    )
-
-  const SetOutPut = (data) => {
-    setOutput(data)
-    // localStorage.setItem("output", JSON.stringify(data));
-  }
 
   const [elements, setElements] = useState([
     ...initialElements.node,
@@ -115,14 +99,19 @@ function EditBot(props) {
         element.data.label.props.children[1].props.children[0].props.children
     );
     setHide(true);
+    // props.closeLeftSidebar()
   };
+
+  const closeSidebar = () => {
+    setHide(false);
+    props.closeLeftSidebar()
+  }
 
   return (
     <div className="EditBotSection">
     <ReactFlowProvider>
       <ReactFlow
         elements={elements}
-        // onLoad={onLoad}
         snapToGrid
         onEdgeUpdate={onEdgeUpdate}
         onElementClick={onElementClick}
@@ -132,7 +121,7 @@ function EditBot(props) {
         <Controls />
       </ReactFlow>
       </ReactFlowProvider>
-      {hide && <BotRightSidebar node={node} setOutput={SetOutPut} output={output} />}
+      {hide && <BotRightSidebar node={node} closeSidebar={() => closeSidebar()} />}
       <BotEditStyle />
     </div>
   );
