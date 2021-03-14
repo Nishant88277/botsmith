@@ -51,15 +51,28 @@ const BotRightStyle = createGlobalStyle`
                 color: #333;
                 font-weight: 600;
             }
+            .list-wrap{
+                height: calc(100vh - 450px);
+                overflow: auto;
+            }
             .listStyle{
                 width: 100%;
-                padding: 20px 10px;
+                padding: 10px;
             }
             .modalButton{
                 border: 1px solid #ddd;
                 padding: 2px 10px;
                 border-radius: 5px;
                 font-weight: 600;
+            }
+            .modalHeadButton{
+                border: 1px solid #ddd;
+                padding: 2px 20px;
+                border-radius: 5px;
+                font-weight: 700;
+                cursor: inherit;
+                outline: none;
+                pointer-events: none;
             }
             img{
                 position: absolute;

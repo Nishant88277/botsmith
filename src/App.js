@@ -9,7 +9,7 @@ import "./app.css"
 
 function App() {
     // if (window.performance) {
-    //     if (performance.navigation.type === 1) {
+    //     if (performance.navigation.type == 1) {
     //         localStorage.clear();
     //     }
     // }
