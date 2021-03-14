@@ -278,40 +278,61 @@ const closeModal = (props) => {
 // modal to show the "output" for save news fields
 function OutputOptions(props) {
 
-    const obj = JSON.parse(localStorage.getItem('output'));
-    const response = [];
-    obj.map((item, index) => {
+    // const obj = JSON.parse(localStorage.getItem('output'))[0];
+    // const response = [];
+    // for (const key in obj) {
+    //     response.push(
+    //         {
+    //             key: obj[key]['displayName'],
+    //             value: obj[key]['value']
+    //         },
+    //     )
+    // }
+    const objs = JSON.parse(localStorage.getItem('output'));
+    const responses = [];
+    objs.map((item, index) => {
+        const subitems = [];
         for (const key in item) {
-            response.push(
+            subitems.push(
                 {
                     key: item[key]['displayName'],
-                    value: item[key]['value'],
-                }
+                    value: item[key]['value']
+                },
             )
         }
+        responses.push({
+            position: index,
+            data: subitems
+        });
+        
     })
 
-  return (
-      <div className="modal-dialog-centered OutputStyle d-block">
-          <div className='modalHead'>
-              Select Data
-              <img className='cursor-pointer m-2' onClick={() => closeModal(props)} src={Close} alt='Close' />
-          </div>
-          <div className='d-flex listStyle'>
-              <ul className='list-unstyled p-0 m-0 w-100'>
-                  {
-                      response.map((item, index) => {
-                          return <>
-                              <li className='d-flex align-items-center mb-2' key={index}>
-                                  {item.key && <button onClick={(e) => AddInput(e, item.key, props)}
-                                                       className='mb-0 modalButton'>{item.key}</button>}
-                                  <p className='mb-0 pl-2 col-8 text-truncate'>{item.value}</p>
-                              </li>
-                          </>
-                      })
-                  }
-              </ul>
-          </div>
-      </div>
-  )
+    return (
+        <div className="modal-dialog-centered OutputStyle d-block">
+            <div className='modalHead'>
+                Select Data
+                <img className='cursor-pointer m-2' onClick={() => closeModal(props)} src={Close} alt='Close' />
+            </div>
+            {
+                responses.map((topItem, topIndex) => {
+                    return <div className='d-flex listStyle'>
+                    <ul className='list-unstyled p-0 m-0 w-100'>
+                        <p>
+                            {topIndex + 1}
+                        </p>
+                        {
+                            topItem.data.map((item, index) => {
+                                return <li className='d-flex align-items-center mb-2' key={index}>
+                                    <button onClick={(e) => AddInput(e, item.key, props)} className='mb-0 modalButton'>{item.key}</button>
+                                    <p className='mb-0 pl-2 col-8 text-truncate'>{item.value}</p>
+                                </li>
+                            })
+                        }
+                    </ul>
+                </div>
+                })
+            }
+            
+        </div>
+    )
 }
