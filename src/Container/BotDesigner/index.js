@@ -59,7 +59,7 @@ function EditBot(props) {
           x:
             initialElements.node.length > 0
               ? initialElements.node[initialElements.node.length - 1].position.x
-              : window.innerWidth/2,
+              : window.innerWidth/2-90*2.25,
           y:
             initialElements.node.length > 0
               ? initialElements.node[initialElements.node.length - 1].position
