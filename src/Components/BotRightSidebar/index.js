@@ -13,9 +13,16 @@ function BotRightSidebar(props) {
     const [error, setError] = useState('')
     const [showOutputOptions, setOutputOptions] = useState(false)
     const [event , setEvent] = useState(null)
+
+    const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
+    const [link, setLink] = useState('')
+    const [published, setPublished] = useState('')
+
     window.onbeforeunload = (e) => {
         sessionStorage.clear()
     }
+
 
     function handleValidate(event) {
         event.preventDefault();
@@ -36,10 +43,29 @@ function BotRightSidebar(props) {
             )
     }
 
+    const map = (e, type) => {
+        setOutputOptions (true)
+        setEvent(type)
+    }
+
+    const AddInput = (type) => {
+        if(event === 'title'){
+            setTitle(type)
+        }
+        if(event === 'description'){
+            setDescription(type)
+        }
+        if(event === 'link'){
+            setLink(type)
+        }
+        if(event === 'published'){
+            setPublished(type)
+        }
+    }
+
   return (
     <div className="BotRightSidebar position-fixed pt-5">
       <h5 className="theme-text header text-capitalize pt-4 pl-3 pr-3 pb-3">{props.node}</h5>
-      {/*<SwitchComponents nodeName={props.node} options={options} />*/}
         {
             props.node === "select" &&
             <form className="pl-3 pr-3">
@@ -134,57 +160,49 @@ function BotRightSidebar(props) {
         }
         {
             props.node === "Save News" &&
-            <form className="pl-3 pr-3 position-relative"  >
+            <form className="pl-3 pr-3 position-relative">
                 <div className="mt-4">
                     <label className="theme-text font-weight-normal">Title</label>
-                    <input
-                        className="d-block w-100 sideInput theme-text pl-2"
-                        type="text"
-                        onFocus = {(e)=> {
-                            setOutputOptions (true)
-                            setEvent(e)
-                        }}
-                    />
+                    <div
+                        className="d-block w-100 sideInput sideInputDiv theme-text"
+                        onClick={(e) =>map(e, 'title')}
+                    >
+                        {title && <button className='btn-warning pointer-event btn pt-0 pb-0'>{title}</button>}
+                    </div>
                 </div>
                 <div className="mt-4">
                     <label className="theme-text font-weight-normal">Description</label>
-                    <input
-                        className="d-block w-100 sideInput theme-text pl-2"
-                        type="text"
-                        onFocus = {(e)=> {
-                            setOutputOptions (true)
-                            setEvent(e)
-                        }}
-                    />
+                    <div
+                        className="d-block w-100 sideInput sideInputDiv theme-text"
+                        onClick={(e) =>map(e, 'description')}
+                    >
+                        {description && <button className='btn-warning btn pt-0 pb-0'>{description}</button>}
+                    </div>
                 </div>
                 <div className="mt-4">
                     <label className="theme-text font-weight-normal">Link</label>
-                    <input
-                        className="d-block w-100 sideInput theme-text pl-2"
-                        type="text"
-                        onFocus = {(e)=> {
-                            setOutputOptions (true)
-                            setEvent(e)
-                        }}
-                    />
+                    <div
+                        className="d-block w-100 sideInput sideInputDiv theme-text"
+                        onClick={(e) =>map(e, 'link')}
+                    >
+                        {link && <button className='btn-warning btn pt-0 pb-0'>{link}</button>}
+                    </div>
                 </div>
                 <div className="mt-4">
                     <label className="theme-text font-weight-normal">Published DateTime</label>
-                    <input
-                        className="d-block w-100 sideInput theme-text pl-2"
-                        type="text"
-                        onFocus = {(e)=> {
-                            setOutputOptions (true)
-                            setEvent(e)
-                        }}
-                    />
+                    <div
+                        className="d-block w-100 sideInput sideInputDiv theme-text"
+                        onClick={(e) =>map(e, 'published')}
+                    >
+                        {published && <button className='btn-warning btn pt-0 pb-0'>{published}</button>}
+                    </div>
                 </div>
                 <hr className="mt-4 mb-4" />
                 <button className="btn sidebarButton text-white w-50 float-right">
                     Validate
                 </button>
 
-                { showOutputOptions && <OutputOptions event = {event} close={() => setOutputOptions(false)}/>}
+                { showOutputOptions && <OutputOptions AddInput={(type) => AddInput(type)} close={() => setOutputOptions(false)}/>}
 
             </form>
         }
@@ -269,21 +287,19 @@ function BotRightSidebar(props) {
 
 export default BotRightSidebar;
 
-const AddInput = (e, key, props) => {
-    e.preventDefault();
-    props.event.target.value = key;
-}
-
-const closeModal = (props) => {
-    props.close()
-}
-
 // modal to show the "output" for save news fields
 function OutputOptions(props) {
+    const AddInput = (e, key, props) => {
+        e.preventDefault();
+        props.AddInput(key);
+    }
+
+    const closeModal = (props) => {
+        props.close()
+    }
 
     const objs = sessionStorage.getItem('output') ? JSON.parse(sessionStorage.getItem('output')) : [] ;
     const responses = [];
-    const isEmpty = false;
     objs.map((item, index) => {
         const subitems = [];
         for (const key in item) {
@@ -298,7 +314,6 @@ function OutputOptions(props) {
             position: index,
             data: subitems
         });
-
     })
 
     return (
@@ -310,10 +325,10 @@ function OutputOptions(props) {
             <div className='list-wrap'>
                 {
                     responses.map((topItem, topIndex) => {
-                        return <div className='d-flex listStyle'>
+                        return <div key={topIndex} className='d-flex listStyle'>
                             <ul className='list-unstyled p-0 m-0 w-100'>
                                 <button className='mb-3 modalHeadButton'>
-                                    {topIndex + 1}
+                                    {topIndex + 1} - RSS Feeds - Watch
                                 </button>
                                 {
                                     topItem.data.map((item, index) => {

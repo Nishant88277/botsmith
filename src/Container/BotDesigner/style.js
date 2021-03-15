@@ -7,6 +7,15 @@ const BotEditStyle = createGlobalStyle`
         height: 90vh;
         width: calc(100% - 150px);
     }
+    .SidebarOverflow{
+        background: transparent;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 9
+    }
     .react-flow__node-default {
         border: 2px solid #CCD7E8;
     }

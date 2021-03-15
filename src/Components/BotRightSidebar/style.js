@@ -24,6 +24,9 @@ const BotRightStyle = createGlobalStyle`
             outline: none;
             font-size: 14px;
         }
+        .sideInputDiv{
+            padding: 6px;
+        }
         hr{
             border-top: 1px solid #CCD7E8;
         }
@@ -52,7 +55,7 @@ const BotRightStyle = createGlobalStyle`
                 font-weight: 600;
             }
             .list-wrap{
-                height: calc(100vh - 450px);
+                height: 270px;
                 overflow: auto;
             }
             .listStyle{

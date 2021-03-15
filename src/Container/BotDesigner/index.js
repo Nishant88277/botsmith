@@ -103,6 +103,7 @@ function EditBot(props) {
   };
 
   const closeSidebar = () => {
+    console.log('in')
     setHide(false);
     props.closeLeftSidebar()
   }
@@ -115,13 +116,17 @@ function EditBot(props) {
         snapToGrid
         onEdgeUpdate={onEdgeUpdate}
         onElementClick={onElementClick}
-
       >
         <Background variant="dots" />
         <Controls />
       </ReactFlow>
       </ReactFlowProvider>
-      {hide && <BotRightSidebar node={node} closeSidebar={() => closeSidebar()} />}
+      {hide &&
+        <>
+          <div onClick={() => closeSidebar()} className='SidebarOverflow' />
+          <BotRightSidebar node={node} closeSidebar={() => closeSidebar()} />
+        </>
+      }
       <BotEditStyle />
     </div>
   );
