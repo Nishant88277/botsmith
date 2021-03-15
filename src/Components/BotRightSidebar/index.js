@@ -13,6 +13,9 @@ function BotRightSidebar(props) {
     const [error, setError] = useState('')
     const [showOutputOptions, setOutputOptions] = useState(false)
     const [event , setEvent] = useState(null)
+    window.onbeforeunload = (e) => {
+        sessionStorage.clear()
+    }
 
     function handleValidate(event) {
         event.preventDefault();
@@ -21,10 +24,10 @@ function BotRightSidebar(props) {
             .then(
                 (result) => {
                     if(result.entries){
-                        var existing = JSON.parse(localStorage.getItem('output'));
+                        var existing = JSON.parse(sessionStorage.getItem('output'));
                         existing = existing ? existing : [];
                         existing.push(...result.entries);
-                        localStorage.setItem('output', JSON.stringify(existing));
+                        sessionStorage.setItem('output', JSON.stringify(existing));
                         props.closeSidebar();
                     }else{
                         setError(result.detail);
@@ -97,7 +100,7 @@ function BotRightSidebar(props) {
                     <p className='mb-0 mt-2 text-danger'>{error}</p>
                 </div>
                 <hr className="mt-4 mb-4" />
-                <button className="btn sidebarButton text-white w-50 float-right" onClick={(e) => handleValidate(e)} >
+                <button disabled={!URL} className="btn sidebarButton text-white w-50 float-right" onClick={(e) => handleValidate(e)} >
                     Validate
                 </button>
             </form>
@@ -131,7 +134,7 @@ function BotRightSidebar(props) {
         }
         {
             props.node === "Save News" &&
-            <form className="pl-3 pr-3 position-relative">
+            <form className="pl-3 pr-3 position-relative"  >
                 <div className="mt-4">
                     <label className="theme-text font-weight-normal">Title</label>
                     <input
@@ -278,8 +281,9 @@ const closeModal = (props) => {
 // modal to show the "output" for save news fields
 function OutputOptions(props) {
 
-    const objs = JSON.parse(localStorage.getItem('output'));
+    const objs = sessionStorage.getItem('output') ? JSON.parse(sessionStorage.getItem('output')) : [] ;
     const responses = [];
+    const isEmpty = false;
     objs.map((item, index) => {
         const subitems = [];
         for (const key in item) {
